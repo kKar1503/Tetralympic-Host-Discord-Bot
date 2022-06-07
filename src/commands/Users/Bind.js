@@ -1,9 +1,9 @@
 module.exports = {
 	category: "Tetralympic",
-	description: "Register for one of the listed tournament.",
+	description: "Bind your Tetr.io account to this Discord account.",
 	slash: true,
 	testOnly: true,
 	callback: ({ message, interaction }) => {
-		return "register";
+		return "bind";
 	},
 };

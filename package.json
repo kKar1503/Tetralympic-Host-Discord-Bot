@@ -1,24 +1,25 @@
 {
-  "name": "tetralympic-host-discord-bot",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/kKar1503/Tetralympic-Host-Discord-Bot.git"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/kKar1503/Tetralympic-Host-Discord-Bot/issues"
-  },
-  "homepage": "https://github.com/kKar1503/Tetralympic-Host-Discord-Bot#readme",
-  "dependencies": {
-    "discord.js": "^13.8.0",
-    "dotenv": "^16.0.1"
-  }
+	"name": "tetralympic-host-discord-bot",
+	"version": "1.0.0",
+	"description": "",
+	"main": "src/index.js",
+	"scripts": {
+		"start": "node src/index.js"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/kKar1503/Tetralympic-Host-Discord-Bot.git"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/kKar1503/Tetralympic-Host-Discord-Bot/issues"
+	},
+	"homepage": "https://github.com/kKar1503/Tetralympic-Host-Discord-Bot#readme",
+	"dependencies": {
+		"discord.js": "^13.8.0",
+		"dotenv": "^16.0.1",
+		"wokcommands": "^1.5.3"
+	}
 }
