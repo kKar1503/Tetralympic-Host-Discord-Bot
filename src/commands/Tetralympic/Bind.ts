@@ -1,6 +1,7 @@
 import { ICommand } from "wokcommands";
 import "dotenv/config";
 import { TetralympicAPI } from "../../api";
+import log from "../../logger";
 
 const { NODE_ENV } = process.env;
 
@@ -23,6 +24,7 @@ export default {
 
 	callback: async ({ interaction, args }) => {
 		const tetrioUsername = args[0];
+		log.info(`${interaction.user.id} used Bind ${tetrioUsername}`);
 
 		await interaction.deferReply({
 			ephemeral: false,
@@ -35,39 +37,64 @@ export default {
 		let insertTetrio = await Api.insertTetrio(tetrioUsername);
 
 		if (insertDiscord) {
+			log.info(`${interaction.user.id} => Bind => insertDiscord: ${insertDiscord}`);
 			Api.whoIs(tetrioUsername)
 				.then(async (response) => {
+					log.info(response);
+					log.info(
+						`${interaction.user.id} => Bind => insertDiscord: ${insertDiscord} => Bound by others`
+					);
 					await interaction.editReply({
 						content: "This Tetrio username is bound to another user.",
 					});
 				})
 				.catch(async (e) => {
+					log.error(e);
 					let bindable = await Api.bindTetrio(id, tetrioUsername);
 					if (bindable) {
+						log.info(
+							`${interaction.user.id} => Bind => insertDiscord: ${insertDiscord} => Binded ${tetrioUsername}`
+						);
 						await interaction.editReply({
 							content: `You are now bound to ${tetrioUsername}`,
 						});
 					} else {
+						log.info(
+							`${interaction.user.id} => Bind => insertDiscord: ${insertDiscord} => Bindable: ${bindable} => Bound by others`
+						);
 						await interaction.editReply({
 							content: "This Tetrio username is bound to another user.",
 						});
 					}
 				});
 		} else {
+			log.info(`${interaction.user.id} => Bind => insertDiscord: ${insertDiscord}`);
 			let discordResponse = await Api.getDiscord(id);
 			let discordUser = discordResponse.data[0];
 			if (discordUser.fk_tetrio_id === null) {
+				log.info(
+					`${interaction.user.id} => Bind => insertDiscord: ${insertDiscord} => FK: ${discordUser.fk_tetrio_id}`
+				);
 				let bindable = await Api.bindTetrio(id, tetrioUsername);
 				if (bindable) {
+					log.info(
+						`${interaction.user.id} => Bind => insertDiscord: ${insertDiscord} => FK: ${discordUser.fk_tetrio_id} => Binded to ${tetrioUsername}`
+					);
 					await interaction.editReply({
 						content: `You are now bound to ${tetrioUsername}`,
 					});
 				} else {
+					log.info(
+						`${interaction.user.id} => Bind => insertDiscord: ${insertDiscord} => FK: ${discordUser.fk_tetrio_id} => Bindable: ${bindable} => Bound by others`
+					);
 					await interaction.editReply({
 						content: "This Tetrio username is bound to another user.",
 					});
 				}
 			} else {
+				log.info(
+					`${interaction.user.id} => Bind => insertDiscord: ${insertDiscord} => FK: ${discordUser.fk_tetrio_id} => Bound already`
+				);
 				await interaction.editReply({
 					content: "You are already bound to a Tetr.io Account.",
 				});

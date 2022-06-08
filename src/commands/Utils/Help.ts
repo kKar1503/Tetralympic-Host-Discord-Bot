@@ -9,6 +9,7 @@ import {
 	HelpMenuCustomIds,
 } from "../../components";
 import "dotenv/config";
+import log from "../../logger";
 
 const { NODE_ENV } = process.env;
 
@@ -21,6 +22,7 @@ export default {
 	guildOnly: true,
 
 	callback: async ({ interaction: messageInteraction, channel }) => {
+		log.info(`${messageInteraction.user.id} used Help`);
 		await messageInteraction.reply({
 			embeds: [MainMenuEmbed],
 			components: [MainMenuActionRow],
@@ -63,8 +65,9 @@ export default {
 		});
 
 		collector.on("end", (collection) => {
+			log.info(`Collector ended: ${collection.size} collected`);
 			collection.forEach((interaction) => {
-				console.log(interaction.customId);
+				log.info(`Selected ${interaction.customId}`);
 			});
 			messageInteraction.editReply({ components: [] });
 		});

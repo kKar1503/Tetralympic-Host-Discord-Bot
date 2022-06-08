@@ -3,6 +3,7 @@ import WOKCommands from "wokcommands";
 import Path from "path";
 import "dotenv/config";
 import Configs from "./config.json";
+import log from "./logger";
 
 const { TOKEN, CLIENT_ID, GUILD_ID, MONGODB_URI } = process.env;
 const { BotOwners } = Configs;
@@ -16,6 +17,7 @@ const client = new DiscordJs.Client({
 });
 
 client.on("ready", async () => {
+	log.info("Logged in");
 	const dbOptions = {
 		keepAlive: true,
 	};

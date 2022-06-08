@@ -9,6 +9,7 @@ import {
 	MessageSelectOptionData,
 } from "discord.js";
 import moment from "moment";
+import log from "../../logger";
 
 const { NODE_ENV } = process.env;
 
@@ -25,23 +26,34 @@ export default {
 			if (!interaction.isSelectMenu()) {
 				return;
 			}
-
+			log.info(`${interaction.user.id} => Register => Selected`);
 			let Api = new TetralympicAPI();
 
 			const { customId, values, member } = interaction;
 
 			let discordResponse = await Api.getDiscord(member?.user.id!);
 			let discordUser = discordResponse.data[0];
-
+			log.info(`${interaction.user.id} => Register => Selected => Found Discord`);
 			if (customId === "competition" && member instanceof GuildMember) {
+				log.info(
+					`${interaction.user.id} => Register => Selected => Found Discord => Ready to Register`
+				);
 				Api.register(discordUser.fk_tetrio_id, values[0])
 					.then(async (response) => {
+						log.info(
+							`${interaction.user.id} => Register => Selected => Found Discord => Registered`
+						);
+						log.info(response);
 						await interaction.reply({
 							ephemeral: true,
 							content: "You have successfully registered.",
 						});
 					})
 					.catch(async (e) => {
+						log.info(
+							`${interaction.user.id} => Register => Selected => Found Discord => Register failed`
+						);
+						log.error(e);
 						await interaction.reply({
 							ephemeral: true,
 							content: "Your registration failed!\nError: " + e.message,
@@ -51,7 +63,8 @@ export default {
 		});
 	},
 
-	callback: async ({ message, interaction }) => {
+	callback: async ({ interaction }) => {
+		log.info(`${interaction.user.id} used Register`);
 		await interaction.deferReply({
 			ephemeral: true,
 		});
@@ -60,15 +73,21 @@ export default {
 		const { id } = interaction.user;
 
 		let discordResponse = await Api.getDiscord(id);
+		log.info(`${interaction.user.id} => Register => GetDiscord`);
 		let discordUser = discordResponse.data[0];
 		if (discordUser.fk_tetrio_id === null) {
+			log.info(`${interaction.user.id} => Register => GetDiscord => Not bound`);
 			await interaction.editReply({
 				content: `Please bind your account using \`/bind <username>\` first.`,
 			});
 		} else {
+			log.info(`${interaction.user.id} => Register => GetDiscord => Bound`);
 			let tetrioUser = await Api.getTetrioById(discordUser.fk_tetrio_id);
 			let competitionList = await Api.getCompetitions();
 
+			log.info(
+				`${interaction.user.id} => Register => GetDiscord => Bound => Tetrio: ${discordUser.fk_tetrio_id} + GetCompetition`
+			);
 			const options: MessageSelectOptionData[] = [];
 			for (let competition of competitionList.data) {
 				options.push({
@@ -111,7 +130,9 @@ export default {
 					.setMinValues(1)
 					.setMaxValues(1)
 			);
-
+			log.info(
+				`${interaction.user.id} => Register => GetDiscord => Bound => Tetrio: ${discordUser.fk_tetrio_id} + GetCompetition => SelectMenu Created`
+			);
 			await interaction.editReply({
 				content: `Please choose a competition to particpate.`,
 				components: [row],
