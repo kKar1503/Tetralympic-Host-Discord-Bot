@@ -93,4 +93,40 @@ export class TetralympicAPI {
 				});
 		});
 	}
+
+	public getTetrioById(tetrioId: string): Promise<any> {
+		return new Promise<any>(async (resolve) => {
+			this.call("/tetrio/userById/" + tetrioId, "get")
+				.then((response) => {
+					if ((response.status = 200)) resolve(response.data);
+				})
+				.catch(() => {
+					resolve(null);
+				});
+		});
+	}
+
+	public getCompetitions(): Promise<any> {
+		return new Promise<any>(async (resolve) => {
+			this.call("/competition/all", "get")
+				.then((response) => {
+					if ((response.status = 200)) resolve(response.data);
+				})
+				.catch(() => {
+					resolve(null);
+				});
+		});
+	}
+
+	public register(tetrioId: string, compId: string): Promise<any> {
+		return new Promise<any>(async (resolve, reject) => {
+			this.call(`/registration/register/${tetrioId}/${compId}`, "post")
+				.then((response) => {
+					if ((response.status = 200)) resolve(response.data);
+				})
+				.catch((e) => {
+					reject(e.response.data);
+				});
+		});
+	}
 }
