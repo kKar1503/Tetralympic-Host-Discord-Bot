@@ -1,4 +1,6 @@
-module.exports = {
+import { ICommand } from "wokcommands";
+
+export default {
 	category: "Tetralympic",
 	description: "Register for one of the listed tournament.",
 	slash: true,
@@ -6,4 +8,4 @@ module.exports = {
 	callback: ({ message, interaction }) => {
 		return "register";
 	},
-};
+} as ICommand;

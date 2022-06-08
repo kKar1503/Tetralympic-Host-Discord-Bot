@@ -105,3 +105,6 @@ dist
 
 # PM2
 ecosystem.config.js
+
+# config file ignore
+config.json
