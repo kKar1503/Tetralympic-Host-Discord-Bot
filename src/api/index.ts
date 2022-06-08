@@ -1,0 +1,1 @@
+export { TetralympicAPI } from "./TetralympicApi";
