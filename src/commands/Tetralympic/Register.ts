@@ -53,7 +53,7 @@ export default {
 						log.info(
 							`${interaction.user.id} => Register => Selected => Found Discord => Register failed`
 						);
-						log.error(e);
+						log.info(e);
 						await interaction.reply({
 							ephemeral: true,
 							content: "Your registration failed!\nError: " + e.message,
