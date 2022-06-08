@@ -1,14 +1,4 @@
-import {
-	ButtonInteraction,
-	CollectorFilter,
-	Message,
-	MessageActionRow,
-	MessageButton,
-	MessageComponentInteraction,
-	MessageEmbed,
-	MessageReaction,
-	User,
-} from "discord.js";
+import { ButtonInteraction, MessageComponentInteraction } from "discord.js";
 import { ICommand } from "wokcommands";
 import {
 	CommandMenuActionRow,
@@ -18,13 +8,17 @@ import {
 	UtilitiesMenuEmbed,
 	HelpMenuCustomIds,
 } from "../../components";
+import "dotenv/config";
+
+const { NODE_ENV } = process.env;
 
 export default {
 	category: "Utilities",
-	description: "Help.",
+	description: "List of commands available in the bot.",
 
 	slash: true,
-	testOnly: true,
+	testOnly: NODE_ENV !== "production",
+	guildOnly: true,
 
 	callback: async ({ interaction: messageInteraction, channel }) => {
 		await messageInteraction.reply({

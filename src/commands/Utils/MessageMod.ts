@@ -4,14 +4,14 @@ import "dotenv/config";
 const { NODE_ENV } = process.env;
 
 export default {
-	category: "Tetralympic",
-	description: "Register for one of the listed tournament.",
+	category: "Utilities",
+	description: "Send a message to all the mods.",
 
 	slash: true,
 	testOnly: NODE_ENV !== "production",
 	guildOnly: true,
 
 	callback: ({ message, interaction }) => {
-		return "register";
+		return "WIP";
 	},
 } as ICommand;

@@ -20,7 +20,7 @@ client.on("ready", async () => {
 		keepAlive: true,
 	};
 
-	new WOKCommands(client, {
+	const wok = new WOKCommands(client, {
 		commandDir: Path.join(__dirname, "commands"),
 		testServers: GUILD_ID,
 		typeScript: true,
@@ -30,6 +30,11 @@ client.on("ready", async () => {
 		ignoreBots: true,
 		delErrMsgCooldown: 10,
 		disabledDefaultCommands: ["help", "prefix", "language"],
+	});
+
+	wok.on("commandException", (command, message, error) => {
+		console.log(`An exception occured when using command "${command.names[0]}"! The error is:`);
+		console.error(error);
 	});
 });
 
