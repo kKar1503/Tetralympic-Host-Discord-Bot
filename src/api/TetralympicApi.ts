@@ -130,4 +130,16 @@ export class TetralympicAPI {
 				});
 		});
 	}
+
+	public unbind(discordId: string): Promise<any> {
+		return new Promise<any>(async (resolve, reject) => {
+			this.call(`/discord/unbind/${discordId}`, `delete`)
+				.then((response) => {
+					resolve(response.unbinded);
+				})
+				.catch((e) => {
+					reject(e);
+				});
+		});
+	}
 }
