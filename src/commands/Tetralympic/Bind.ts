@@ -23,7 +23,7 @@ export default {
 	],
 
 	callback: async ({ interaction, args }) => {
-		const tetrioUsername = args[0];
+		const tetrioUsername = args[0].toLowerCase();
 		log.info(`${interaction.user.id} used Bind ${tetrioUsername}`);
 
 		await interaction.deferReply({
@@ -34,7 +34,16 @@ export default {
 		const { id, username, discriminator } = interaction.user;
 
 		let insertDiscord = await Api.insertDiscord(id, username, discriminator);
-		let insertTetrio = await Api.insertTetrio(tetrioUsername);
+		try {
+			await Api.insertTetrio(tetrioUsername);
+		} catch (e: any) {
+			if (e.status !== 422) {
+				await interaction.editReply({
+					content: e.data.message!,
+				});
+				return;
+			}
+		}
 
 		if (insertDiscord) {
 			log.info(`${interaction.user.id} => Bind => insertDiscord: ${insertDiscord}`);
@@ -49,7 +58,7 @@ export default {
 					});
 				})
 				.catch(async (e) => {
-					log.error(e);
+					log.info(e);
 					let bindable = await Api.bindTetrio(id, tetrioUsername);
 					if (bindable) {
 						log.info(

@@ -60,6 +60,7 @@ export class TetralympicAPI {
 				tetrioUsername,
 			})
 				.then((response) => {
+					console.log(response);
 					if ((response.status = 200)) {
 						if (response.data.affectedRows === 0) resolve(false);
 						resolve(true);
@@ -82,14 +83,14 @@ export class TetralympicAPI {
 		});
 	}
 
-	public insertTetrio(username: string): Promise<boolean> {
-		return new Promise<boolean>(async (resolve) => {
+	public insertTetrio(username: string): Promise<any> {
+		return new Promise<any>(async (resolve, reject) => {
 			this.call("/tetrio/user/" + username, "post")
 				.then((response) => {
 					if ((response.status = 201)) resolve(true);
 				})
-				.catch(() => {
-					resolve(false);
+				.catch((e) => {
+					reject(e.response);
 				});
 		});
 	}

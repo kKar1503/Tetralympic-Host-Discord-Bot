@@ -40,8 +40,4 @@ client.on("ready", async () => {
 	});
 });
 
-client.on("interactionCreate", (interaction) => {
-	console.log("interacted");
-});
-
 client.login(TOKEN);
