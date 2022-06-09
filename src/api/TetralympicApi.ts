@@ -60,7 +60,6 @@ export class TetralympicAPI {
 				tetrioUsername,
 			})
 				.then((response) => {
-					console.log(response);
 					if ((response.status = 200)) {
 						if (response.data.affectedRows === 0) resolve(false);
 						resolve(true);
@@ -135,7 +134,7 @@ export class TetralympicAPI {
 		return new Promise<any>(async (resolve, reject) => {
 			this.call(`/discord/unbind/${discordId}`, `delete`)
 				.then((response) => {
-					resolve(response.unbinded);
+					resolve(response.data.unbinded);
 				})
 				.catch((e) => {
 					reject(e);

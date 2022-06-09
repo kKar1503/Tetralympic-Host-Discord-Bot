@@ -24,27 +24,27 @@ export default {
 		const { id } = interaction.user;
 
 		let unbinded;
-		try {
-			unbinded = await Api.unbind(id);
-		} catch (e: any) {
-			log.info(`${interaction.user.id} Unbind => Failed API`);
-			log.info(e);
-			await interaction.editReply({
-				content: e,
+		await Api.unbind(id)
+			.then(async (unbinded) => {
+				log.info(`${interaction.user.id} Unbind => returned from API`);
+				if (unbinded) {
+					log.info(`${interaction.user.id} Unbind => returned from API => Unbinded`);
+					await interaction.editReply({
+						content: `Successfully unbinded your Tetr.io`,
+					});
+				} else {
+					log.info(`${interaction.user.id} Unbind => returned from API => Not unbinded`);
+					await interaction.editReply({
+						content: `Failed to unbind`,
+					});
+				}
+			})
+			.catch(async (e) => {
+				log.info(`${interaction.user.id} Unbind => Failed API`);
+				log.info(e);
+				await interaction.editReply({
+					content: e,
+				});
 			});
-			return;
-		}
-		log.info(`${interaction.user.id} Unbind => returned from API`);
-		if (unbinded) {
-			log.info(`${interaction.user.id} Unbind => returned from API => Unbinded`);
-			await interaction.editReply({
-				content: `Successfully unbinded your Tetr.io`,
-			});
-		} else {
-			log.info(`${interaction.user.id} Unbind => returned from API => Not unbinded`);
-			await interaction.editReply({
-				content: `Failed to unbind`,
-			});
-		}
 	},
 } as ICommand;
