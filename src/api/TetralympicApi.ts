@@ -108,7 +108,7 @@ export class TetralympicAPI {
 
 	public getCompetitions(): Promise<any> {
 		return new Promise<any>(async (resolve) => {
-			this.call("/competition/all", "get")
+			this.call("/competition/16", "get")
 				.then((response) => {
 					if ((response.status = 200)) resolve(response.data);
 				})
@@ -135,6 +135,18 @@ export class TetralympicAPI {
 			this.call(`/discord/unbind/${discordId}`, `delete`)
 				.then((response) => {
 					resolve(response.data.unbinded);
+				})
+				.catch((e) => {
+					reject(e);
+				});
+		});
+	}
+
+	public whois(tetrioId: string): Promise<any> {
+		return new Promise<any>(async (resolve, reject) => {
+			this.call(`/discord/whois/${tetrioId}`, `get`)
+				.then((response) => {
+					resolve(response.data[0]);
 				})
 				.catch((e) => {
 					reject(e);
