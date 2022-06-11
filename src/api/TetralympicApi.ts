@@ -153,4 +153,16 @@ export class TetralympicAPI {
 				});
 		});
 	}
+
+	public verify(tetrioUsername: string, phoneNumber: number): Promise<any> {
+		return new Promise<any>((resolve, reject) => {
+			this.call(`/tetrio/phone/${tetrioUsername}/${phoneNumber}`, `post`)
+				.then((response) => {
+					resolve(response);
+				})
+				.catch((e) => {
+					reject(e);
+				});
+		});
+	}
 }
