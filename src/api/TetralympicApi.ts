@@ -42,15 +42,18 @@ export class TetralympicAPI {
 	}
 
 	public getDiscord(id: string): Promise<any> {
-		return new Promise<any>(async (resolve, reject) => {
-			try {
-				const res = await this.call("/discord/user/" + id, "get");
-				if ((res.status = 200)) {
-					resolve(res.data);
-				} else reject(res.message);
-			} catch (e) {
-				reject(e);
-			}
+		return new Promise<any>((resolve, reject) => {
+			this.call("/discord/user/" + id, "get")
+				.then((response) => {
+					if (response.status === 200) {
+						resolve(response.data);
+					} else {
+						reject(response);
+					}
+				})
+				.catch((e) => {
+					reject(e);
+				});
 		});
 	}
 
@@ -74,7 +77,7 @@ export class TetralympicAPI {
 			try {
 				const res = await this.call("/discord/whois/" + username, "get");
 				if ((res.status = 200)) {
-					resolve(res.data);
+					resolve(res.data.data[0]);
 				} else reject(res.message);
 			} catch (e) {
 				reject(e);
@@ -135,18 +138,6 @@ export class TetralympicAPI {
 			this.call(`/discord/unbind/${discordId}`, `delete`)
 				.then((response) => {
 					resolve(response.data.unbinded);
-				})
-				.catch((e) => {
-					reject(e);
-				});
-		});
-	}
-
-	public whois(tetrioId: string): Promise<any> {
-		return new Promise<any>(async (resolve, reject) => {
-			this.call(`/discord/whois/${tetrioId}`, `get`)
-				.then((response) => {
-					resolve(response.data[0]);
 				})
 				.catch((e) => {
 					reject(e);
