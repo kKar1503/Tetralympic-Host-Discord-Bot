@@ -45,8 +45,8 @@ export default {
 						);
 						log.info(response);
 						await interaction.reply({
-							ephemeral: true,
-							content: "You have successfully registered.",
+							ephemeral: false,
+							content: `<@${interaction.user.id}>, you have successfully registered for Tetralympic Singapore.`,
 						});
 					})
 					.catch(async (e) => {
