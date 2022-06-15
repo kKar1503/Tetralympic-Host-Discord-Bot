@@ -53,9 +53,15 @@ export default {
 					log.info(
 						`${interaction.user.id} => Bind => insertDiscord: ${insertDiscord} => Bound by others`
 					);
-					await interaction.editReply({
-						content: "This Tetrio username is bound to another user.",
-					});
+					if (response.id === id) {
+						await interaction.editReply({
+							content: "You are already bound to this Tetrio username.",
+						});
+					} else {
+						await interaction.editReply({
+							content: "This Tetrio username is bound to another user.",
+						});
+					}
 				})
 				.catch(async (e) => {
 					log.info(e);
@@ -84,9 +90,15 @@ export default {
 					log.info(
 						`${interaction.user.id} => Bind => insertDiscord: ${insertDiscord} => Bound by others`
 					);
-					await interaction.editReply({
-						content: "This Tetrio username is bound to another user.",
-					});
+					if (response.id === id) {
+						await interaction.editReply({
+							content: "You are already bound to this Tetrio username.",
+						});
+					} else {
+						await interaction.editReply({
+							content: "This Tetrio username is bound to another user.",
+						});
+					}
 				})
 				.catch(async (e) => {
 					let discordResponse = await Api.getDiscord(id);
