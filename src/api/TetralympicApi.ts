@@ -156,4 +156,16 @@ export class TetralympicAPI {
 				});
 		});
 	}
+
+	public checkin(tetrioId: string): Promise<any> {
+		return new Promise<any>((resolve, reject) => {
+			this.call(`/registration/checkin/${tetrioId}`, `post`)
+				.then((response) => {
+					resolve(response);
+				})
+				.catch((e) => {
+					reject(e.response.status);
+				});
+		});
+	}
 }
